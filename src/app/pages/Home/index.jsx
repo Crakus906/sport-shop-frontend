@@ -10,8 +10,6 @@ const Home = () => {
   return (
     <div>
       <div>homeasdcas</div>
-      {test}
-      <div onClick={() => dispatch(addTest(1))}>+</div>
     </div>
   );
 };

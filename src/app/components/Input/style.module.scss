@@ -1,0 +1,11 @@
+.input {
+  margin-bottom: 25px;
+  :global {
+    .MuiTextField-root {
+      width: 100%;
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
