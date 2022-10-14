@@ -13,6 +13,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [auth, setAuth] = useState(false);
 
@@ -23,6 +24,8 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  console.log(location);
 
   return (
     <AppBar className={st.header}>
@@ -72,7 +75,11 @@ const Header = () => {
         ) : (
           <div
             className={st.login}
-            onClick={() => navigate("/auth/login", { state: { auth: true } })}
+            onClick={() =>
+              navigate("/auth/login", {
+                state: { auth: true, pathName: location.pathname },
+              })
+            }
           >
             Login
           </div>

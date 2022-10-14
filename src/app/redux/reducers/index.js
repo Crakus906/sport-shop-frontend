@@ -1,5 +1,8 @@
-import data from './data';
+import { combineReducers } from "redux";
+import data from "./data";
+import auth from "./auth";
 
-export default {
+export default combineReducers({
   data,
-};
+  auth,
+});

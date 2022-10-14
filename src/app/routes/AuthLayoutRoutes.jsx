@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
 
 const Login = lazy(() => import("../pages/Login"));
+const Registration = lazy(() => import("../pages/Registration"));
 
 const AuthLayoutRoutes = () => {
   return (
@@ -10,6 +11,7 @@ const AuthLayoutRoutes = () => {
       <Suspense fallback={<div>Loading...)=</div>}>
         <Routes>
           <Route exact path="/auth/login" element={<Login />} />
+          <Route path="/auth/registration" element={<Registration />} />
         </Routes>
       </Suspense>
     </AuthLayout>

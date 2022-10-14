@@ -5,7 +5,7 @@ import Box from "@mui/system/Box";
 
 import st from "./style.module.scss";
 
-const Button = ({ children, variant, color, style, ...props }) => {
+const Button = ({ children, style, ...props }) => {
   return (
     <Box className={cn(st.button, { [style]: style })}>
       <Btn {...props}>{children}</Btn>

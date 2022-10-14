@@ -12,14 +12,14 @@ import { schema } from "./schema";
 import st from "./style.module.scss";
 import { login } from "../../redux/actions/auth";
 
-const Login = () => {
+const Registration = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   return (
     <Box className={st.login}>
-      <Typography className={st.title}>login</Typography>
+      <Typography className={st.title}>Registration</Typography>
       <Formik
         initialValues={schema.default()}
         validationSchema={schema}
@@ -62,16 +62,7 @@ const Login = () => {
                   Login
                 </Button>
               </Box>
-              <Button
-                onClick={() =>
-                  navigate("/auth/registration", {
-                    state: { auth: true, pathName: location.pathname },
-                  })
-                }
-                variant="contained"
-              >
-                Register
-              </Button>
+              <Button variant="contained">Register</Button>
             </Box>
           </Form>
         )}
@@ -80,4 +71,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Registration;
