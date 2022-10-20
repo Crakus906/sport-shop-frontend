@@ -1,18 +1,32 @@
 import MainLayoutRoutes from "./MainLayoutRoutes";
-import React from "react";
+import React, { useEffect } from "react";
 import AuthLayoutRoutes from "./AuthLayoutRoutes";
 import { ToastContainer } from "react-toastify";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getMe } from "../redux/action/auth";
+import {
+  isAuthSelector,
+  isLoadingAuthSelector,
+} from "../redux/selector/selector";
 
 const AppRoutes = () => {
+  const dispatch = useDispatch();
+  const isLoading = useSelector(isLoadingAuthSelector);
+
   const location = useLocation();
-  console.log(location);
+  useEffect(() => {
+    if (window.localStorage.getItem("token")) {
+      dispatch(getMe());
+    }
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
+
   return (
     <div>
-      {/* <Routes>
-        <Route path="/auth/:path?" component={AuthLayoutRoutes} />
-        <Route component={MainLayoutRoutes} />
-      </Routes> */}
       {location.state?.auth && <AuthLayoutRoutes />}
       {!location.state?.auth && <MainLayoutRoutes />}
       <ToastContainer

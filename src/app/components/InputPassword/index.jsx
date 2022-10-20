@@ -10,7 +10,7 @@ import Box from "@mui/system/Box";
 
 import st from "./style.module.scss";
 
-const InputPassword = ({ variant, errors, ...props }) => {
+const InputPassword = ({ label, variant, errors, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleMouseDownPassword = (event) => {
@@ -26,7 +26,7 @@ const InputPassword = ({ variant, errors, ...props }) => {
       }}
       className={st.input}
     >
-      <InputLabel>Password</InputLabel>
+      <InputLabel>{label}</InputLabel>
       <Input
         {...props}
         type={showPassword ? "text" : "password"}

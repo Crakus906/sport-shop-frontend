@@ -1,15 +1,23 @@
-import { configureStore } from "@reduxjs/toolkit";
-// import logger from "redux-logger";
-import reducer from "./reducers";
+import { createStore, applyMiddleware, compose } from 'redux';
+import { createLogger } from 'redux-logger';
+import { createBrowserHistory } from 'history';
+import thunk from 'redux-thunk';
+import rootReducer from './reduser/index';
 
-// const middleware = getDefaultMiddleware();
+export const history = createBrowserHistory();
 
-// if (process.env.NODE_ENV !== 'production') {
-//   middleware.push(logger);
-// }
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const middlewares = [thunk];
 
-export default configureStore({
-  reducer,
-  // middleware,
-  devTools: process.env.NODE_ENV !== "production",
-});
+if (process.env.NODE_ENV === 'development') {
+  const logger = createLogger();
+  middlewares.push(logger);
+}
+
+const enhancers = composeEnhancers(
+  applyMiddleware(...middlewares),
+);
+
+const store = createStore(rootReducer, enhancers);
+
+export default store;
