@@ -10,12 +10,17 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import st from "./style.module.scss";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { isAuthSelector } from "../../../redux/selector/selector";
+import { logout } from "../../../redux/action/auth";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [auth, setAuth] = useState(false);
+
+  const isAuth = useSelector(isAuthSelector);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,21 +30,33 @@ const Header = () => {
     setAnchorEl(null);
   };
 
-  console.log(location);
+  const handleLogout = () => {
+    dispatch(logout());
+    window.localStorage.clear();
+  };
 
   return (
-    <AppBar className={st.header}>
+    // <AppBar
+    //   className={st.header}
+    //   position="fixed"
+    //   sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    // >
+    <AppBar
+      position="fixed"
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
       <Toolbar className={st.toolbar}>
         <IconButton
           size="large"
           edge="start"
           color="inherit"
           aria-label="menu"
+          // onClick={handleDrawerToggle}
           // sx={{ mr: 2 }}
         >
           <MenuIcon />
         </IconButton>
-        {auth ? (
+        {isAuth ? (
           <div>
             <IconButton
               size="large"
@@ -70,19 +87,42 @@ const Header = () => {
                 <Link to="/profile">Profile</Link>
               </MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem>
+                <div className={st.login} onClick={handleLogout}>
+                  Logout
+                </div>
+              </MenuItem>
             </Menu>
           </div>
         ) : (
-          <div
-            className={st.login}
-            onClick={() =>
-              navigate("/auth/login", {
-                state: { auth: true, pathName: location.pathname },
-              })
-            }
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
           >
-            Login
-          </div>
+            <div
+              className={st.login}
+              onClick={() =>
+                navigate("/auth/login", {
+                  state: { auth: true, pathName: location.pathname },
+                })
+              }
+            >
+              Login
+            </div>
+            <div
+              className={st.login}
+              onClick={() =>
+                navigate("/auth/registration", {
+                  state: { auth: true, pathName: location.pathname },
+                })
+              }
+            >
+              Registeration
+            </div>
+          </Box>
         )}
       </Toolbar>
     </AppBar>

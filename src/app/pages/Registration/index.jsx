@@ -1,21 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
+import { registration } from "../../redux/action/auth";
+import { schema } from "./schema";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "../../components/Button";
-import Input from "../../components/Input";
-import PaaswordInput from "../../components/InputPassword";
-import { schema } from "./schema";
+import InputField from "../../components/InputField";
+import PasswordField from "../../components/PasswordField";
+import { isAuthSelector } from "../../redux/selector/selector";
 
 import st from "./style.module.scss";
-import { login } from "../../redux/actions/auth";
 
 const Registration = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+
+  const isAuth = useSelector(isAuthSelector);
+
+  useEffect(() => {
+    if (isAuth) {
+      return navigate("/");
+    }
+  }, [isAuth]);
 
   return (
     <Box className={st.login}>
@@ -24,27 +32,55 @@ const Registration = () => {
         initialValues={schema.default()}
         validationSchema={schema}
         onSubmit={(values) => {
-          dispatch(login(values));
+          dispatch(registration(values));
         }}
       >
-        {({ values: { email, password }, handleChange, errors }) => (
+        {({
+          values: { email, cretePassword, firstName, lastName, phoneNumber },
+          handleChange,
+        }) => (
           <Form>
-            <Input
+            <InputField
+              name="firstName"
+              id="firstName"
+              label="First Name"
+              placehplder="First Name"
+              onChange={handleChange}
+              value={firstName}
+            />
+            <InputField
+              name="lastName"
+              id="lastName"
+              label="Last Name"
+              placehplder="Last Name"
+              onChange={handleChange}
+              value={lastName}
+            />
+            <InputField
+              name="phoneNumber"
+              id="phoneNumber"
+              label="Phone Number"
+              onChange={handleChange}
+              type="number"
+              value={phoneNumber}
+            />
+            <InputField
+              name="email"
               id="email"
               label="Email"
               placehplder="email@email.com"
               onChange={handleChange}
               value={email}
-              errors={errors.email}
             />
-            <PaaswordInput
+            <PasswordField
+              name="password"
               id="password"
-              label="Password"
-              placehplder="Password"
-              value={password}
+              label="Crete Password"
+              placehplder="Crete Password"
+              value={cretePassword}
               onChange={handleChange}
-              errors={errors.password}
             />
+
             <Box className={st.buttonContainer}>
               <Box
                 style={{
@@ -52,17 +88,20 @@ const Registration = () => {
                   gap: "20px",
                 }}
               >
-                <Button
-                  onClick={() => navigate(location.state.pathName)}
-                  variant="outlined"
-                >
+                <Button onClick={() => navigate("/")} variant="outlined">
                   Back
                 </Button>
                 <Button type="submit" variant="outlined">
-                  Login
+                  Registration
                 </Button>
               </Box>
-              <Button variant="contained">Register</Button>
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={() => navigate("/auth/login")}
+              >
+                Login
+              </Button>
             </Box>
           </Form>
         )}
