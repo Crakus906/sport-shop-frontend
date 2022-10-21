@@ -4,6 +4,9 @@ import AuthLayout from "../layout/AuthLayout";
 
 const Login = lazy(() => import("../pages/Login"));
 const Registration = lazy(() => import("../pages/Registration"));
+const RegistrationAsSeller = lazy(() =>
+  import("../pages/RegistrationAsSeller")
+);
 
 const AuthLayoutRoutes = () => {
   return (
@@ -12,6 +15,10 @@ const AuthLayoutRoutes = () => {
         <Routes>
           <Route exact path="/auth/login" element={<Login />} />
           <Route path="/auth/registration" element={<Registration />} />
+          <Route
+            path="/auth/registration-as-seller"
+            element={<RegistrationAsSeller />}
+          />
         </Routes>
       </Suspense>
     </AuthLayout>

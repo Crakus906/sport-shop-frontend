@@ -27,12 +27,12 @@ const Registration = () => {
 
   return (
     <Box className={st.login}>
-      <Typography className={st.title}>Registration</Typography>
+      <Typography className={st.title}>Register as a buyer</Typography>
       <Formik
         initialValues={schema.default()}
         validationSchema={schema}
         onSubmit={(values) => {
-          dispatch(registration(values));
+          dispatch(registration({ seller: false, ...values }));
         }}
       >
         {({
@@ -95,13 +95,40 @@ const Registration = () => {
                   Registration
                 </Button>
               </Box>
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={() => navigate("/auth/login")}
+              <Box
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "20px",
+                }}
               >
-                Login
-              </Button>
+                <Box
+                  onClick={() =>
+                    navigate("/auth/login", {
+                      state: { auth: true, pathName: location.pathname },
+                    })
+                  }
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  variant="contained"
+                >
+                  Login
+                </Box>
+                <Box
+                  onClick={() =>
+                    navigate("/auth/registration-as-seller", {
+                      state: { auth: true, pathName: location.pathname },
+                    })
+                  }
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  variant="contained"
+                >
+                  Register as a seller
+                </Box>
+              </Box>
             </Box>
           </Form>
         )}
